@@ -1,5 +1,4 @@
-package eu.inoop.ding;
-
+package eu.inoop.ding.logic;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

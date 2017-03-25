@@ -1,10 +1,9 @@
 package eu.inoop.ding;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -12,14 +11,20 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.util.Currency;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import eu.inoop.ding.logic.DingCore;
+import eu.inoop.ding.logic.DingMessage;
+import eu.inoop.ding.logic.WebService;
 import eu.inoop.ding.model.PaymentInfo;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
-public class CustomerPayReceiveActivity extends AppCompatActivity {
+public final class CustomerPayReceiveActivity extends BaseActivity {
 
     public static final String STATE_KEY_PAYMENT_INFO = "StateKeyPaymentInfo";
 
@@ -34,8 +39,6 @@ public class CustomerPayReceiveActivity extends AppCompatActivity {
 
     @BindView((R.id.payment_sum))
     TextView mPaymentSum;
-
-    private Handler mHandler = new Handler();
 
     @Nullable
     private PaymentInfo mPaymentInfo;
@@ -57,18 +60,32 @@ public class CustomerPayReceiveActivity extends AppCompatActivity {
         } else {
             mPaymentAwaitPane.setVisibility(View.VISIBLE);
         }
+    }
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                PaymentInfo paymentInfo = new PaymentInfo(
-                        UUID.randomUUID().toString(),
-                        Currency.getInstance("USD"),
-                        new BigDecimal(200)
-                );
-                paymentReceived(paymentInfo);
-            }
-        }, 2000);
+    @Override
+    protected void onDingCoreResumed() {
+        super.onDingCoreResumed();
+
+        Disposable disposable = DingCore.getInstance(getApplicationContext()).startListening()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<DingMessage>() {
+                    @Override
+                    public void accept(DingMessage dingMessage) throws Exception {
+                        PaymentInfo paymentInfo = new PaymentInfo(
+                                dingMessage.getKey(),
+                                Currency.getInstance("USD"),
+                                new BigDecimal(dingMessage.getPrice())
+                        );
+                        paymentReceived(paymentInfo);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("E", throwable.toString());
+                    }
+                });
+        mDisposables.add(disposable);
     }
 
     private void paymentReceived(PaymentInfo paymentInfo) {
@@ -90,5 +107,18 @@ public class CustomerPayReceiveActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState, outPersistentState);
 
         outState.putSerializable(STATE_KEY_PAYMENT_INFO, mPaymentInfo);
+    }
+
+    @OnClick(R.id.pay_action_confirm)
+    void onConfirmPayment() {
+        if (mPaymentInfo != null) {
+            WebService.pay(mPaymentInfo.getMerchantId());
+            this.onBackPressed();
+        }
+    }
+
+    @OnClick(R.id.pay_action_cancel)
+    void onCancelPayment() {
+        this.onBackPressed();
     }
 }

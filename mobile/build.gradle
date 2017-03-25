@@ -17,6 +17,9 @@ android {
         resValue "string", "chirp_app_secret", properties.getProperty('CHIRP_APP_SECRET')
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -36,10 +39,10 @@ dependencies {
 
     // The following dependencies need adding:
     compile 'com.squareup.dagger:dagger:1.2.2'
-    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
+    annotationProcessor 'com.squareup.dagger:dagger-compiler:1.2.2'
     compile 'com.squareup.retrofit:retrofit:1.8.0'
-    compile 'com.squareup.okhttp:okhttp:2.1.+'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:+'
+    compile 'com.squareup.okhttp:okhttp:2.1.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.1.2'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.1.2'
     compile 'com.fasterxml.jackson.core:jackson-core:2.1.1'
@@ -48,7 +51,6 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-android:4.48'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.2.0'
 

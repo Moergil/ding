@@ -1,4 +1,4 @@
-package eu.inoop.ding;
+package eu.inoop.ding.logic;
 
 
 import android.content.Context;
@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import eu.inoop.ding.R;
 import io.chirp.sdk.CallbackCreate;
 import io.chirp.sdk.CallbackRead;
 import io.chirp.sdk.ChirpSDK;

@@ -3,19 +3,26 @@ package eu.inoop.ding;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import eu.inoop.ding.logic.DingCore;
+import eu.inoop.ding.logic.DingMessage;
+import eu.inoop.ding.logic.WebService;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
-public class MerchantPaySend extends AppCompatActivity {
+public class MerchantPaySend extends BaseActivity {
 
     public static final String STATE_KEY_AMOUNT = "StateKeyAmount";
     public static final String STATE_KEY_PAYMENT_SEND = "StateKeyPaymentSend";
@@ -105,12 +112,27 @@ public class MerchantPaySend extends AppCompatActivity {
 
         showProgress();
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showFinished();
-            }
-        }, 2000);
+        final String key = UUID.randomUUID().toString();
+        final float price = Float.parseFloat(mAmountText.getText().toString());
+        final String desc = "some info";
+        final DingMessage dingMessage = new DingMessage(key, price, desc);
+
+        DingCore.getInstance(getApplicationContext())
+                .send(dingMessage);
+
+        final Disposable disposable = WebService.waitForPayment(key)
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        showFinished();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("a", throwable.getMessage());
+                    }
+                });
+        mDisposables.add(disposable);
     }
 
     @OnClick({
