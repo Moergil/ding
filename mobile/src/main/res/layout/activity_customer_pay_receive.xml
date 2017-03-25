@@ -15,20 +15,58 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="center"
             android:layout_centerInParent="true">
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/audio_visualization"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:background="#0f0"
-                android:layout_alignParentTop="true"/>
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:gravity="bottom">
+
+                <View
+                    android:id="@+id/audio_block_1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="#fff"
+                    android:layout_margin="5dp"/>
+
+                <View
+                    android:id="@+id/audio_block_2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="#fff"
+                    android:layout_margin="5dp"/>
+
+                <View
+                    android:id="@+id/audio_block_3"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="#fff"
+                    android:layout_margin="5dp"/>
+
+                <View
+                    android:id="@+id/audio_block_4"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="#fff"
+                    android:layout_margin="5dp"/>
+
+                <View
+                    android:id="@+id/audio_block_5"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="#fff"
+                    android:layout_margin="5dp"/>
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Listening..."
                 android:textSize="32sp"
+                android:layout_margin="30dp"
                 android:textColor="@color/colorText"/>
 
         </LinearLayout>
