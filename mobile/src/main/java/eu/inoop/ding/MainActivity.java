@@ -52,22 +52,6 @@ public class MainActivity extends AppCompatActivity {
         mDisposables = new ListCompositeDisposable();
 
         ButterKnife.bind(this);
-
-        final Disposable disposable = WebService.waitForPayment("abc")
-                .subscribeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mTextView.setText("PAID");
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        mTextView.setText("ERROR");
-                    }
-                });
-        mDisposables.add(disposable);
     }
 
     private boolean doWeHaveRecordAudioPermission() {
@@ -122,7 +106,26 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_pay)
     void onPayClick() {
-        WebService.pay("abc");
+        final Random random = new Random();
+        final String key = "" + random.nextInt();
+
+        final Disposable disposable = WebService.waitForPayment(key)
+                .subscribeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mTextView.setText("PAID");
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        mTextView.setText("ERROR");
+                    }
+                });
+        mDisposables.add(disposable);
+
+        WebService.pay(key);
     }
 
     @OnClick(R.id.btn_start)
