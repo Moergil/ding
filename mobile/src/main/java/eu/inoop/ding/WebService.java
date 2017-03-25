@@ -2,7 +2,6 @@ package eu.inoop.ding;
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,24 +19,15 @@ public final class WebService {
 
     private static final String TAG = WebService.class.getSimpleName();
 
-    @Nullable
-    private static WebService sInstance = null;
-
-    public static WebService getInstance() {
-        if (null == sInstance) {
-            sInstance = new WebService();
-        }
-        return sInstance;
-    }
-
-    public void pay(@NonNull final String key) {
+    public static void pay(@NonNull final String key) {
         // Write a message to the database
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference(key);
         myRef.setValue(true);
     }
 
-    public Completable waitForPayment(@NonNull final String key) {
+    @NonNull
+    public static Completable waitForPayment(@NonNull final String key) {
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(final @NonNull CompletableEmitter emitter) throws Exception {

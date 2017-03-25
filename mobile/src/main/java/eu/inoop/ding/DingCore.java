@@ -3,6 +3,7 @@ package eu.inoop.ding;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -14,17 +15,24 @@ import io.chirp.sdk.ChirpSDKListener;
 import io.chirp.sdk.model.Chirp;
 import io.chirp.sdk.model.ChirpError;
 import io.chirp.sdk.model.ChirpProtocolName;
-import io.chirp.sdk.model.ChirpStreamingMode;
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
-public class DingCore {
-
+public final class DingCore {
 
     private static final String TAG = DingCore.class.getSimpleName();
+
+    @Nullable
+    private static DingCore sInstance = null;
+
+    @NonNull
+    public static DingCore getInstance(@NonNull final Context appContext) {
+        if (null == sInstance) {
+            sInstance = new DingCore(appContext);
+        }
+        return sInstance;
+    }
 
     @NonNull
     private final Context mAppContext;
@@ -78,7 +86,7 @@ public class DingCore {
         }
     };
 
-    public DingCore(@NonNull final Context appContext) {
+    private DingCore(@NonNull final Context appContext) {
         mAppContext = appContext;
 
         mChirpSDK = new ChirpSDK(mAppContext,

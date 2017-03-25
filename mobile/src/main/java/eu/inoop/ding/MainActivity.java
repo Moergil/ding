@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDingCore = new DingCore(getApplicationContext());
+        mDingCore = DingCore.getInstance(getApplicationContext());
         mDisposables = new ListCompositeDisposable();
 
         ButterKnife.bind(this);
 
-        final Disposable disposable = WebService.getInstance().waitForPayment("abc")
+        final Disposable disposable = WebService.waitForPayment("abc")
                 .subscribeOn(Schedulers.io())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_pay)
     void onPayClick() {
-        WebService.getInstance().pay("abc");
+        WebService.pay("abc");
     }
 
     @OnClick(R.id.btn_start)
