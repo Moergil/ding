@@ -11,6 +11,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -93,10 +95,10 @@ public class MainActivity extends AppCompatActivity {
             Disposable disposable = mDingCore.startListening()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<JSONObject>() {
+                    .subscribe(new Consumer<DingMessage>() {
                         @Override
-                        public void accept(JSONObject jsonObject) throws Exception {
-                            mTextView.setText(jsonObject.toString());
+                        public void accept(DingMessage dingMessage) throws Exception {
+                            mTextView.setText(dingMessage.toString());
                         }
                     }, new Consumer<Throwable>() {
                         @Override
@@ -125,16 +127,16 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_start)
     void onStartClick() {
-        final JSONObject jsonObj = new JSONObject();
-        try {
-            jsonObj.put("price", (new Random().nextFloat() * 1000));
-            jsonObj.put("more", "Pay me!");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        mDingCore.send(jsonObj);
+        final Random random = new Random();
+        final String key = "" + random.nextInt();
 
-        mTextView.setText("Sent: " + jsonObj);
+        final float price = random.nextFloat() * 100;
+        final String desc = "Pay me!";
+
+        final DingMessage dingMessage = new DingMessage(key, price, desc);
+
+        mDingCore.send(dingMessage);
+        mTextView.setText("Sent: " + dingMessage);
     }
 
     @OnClick(R.id.btn_reset)

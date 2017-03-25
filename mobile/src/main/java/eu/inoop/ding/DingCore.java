@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.chirp.sdk.CallbackCreate;
@@ -39,7 +42,9 @@ public final class DingCore {
     @NonNull
     private final ChirpSDK mChirpSDK;
     @NonNull
-    private final Subject<JSONObject> mReadSubject = PublishSubject.create();
+    private final Subject<DingMessage> mReadSubject = PublishSubject.create();
+    @NonNull
+    private final Gson mGson = new Gson();
 
     private final ChirpSDKListener mChirpSDKListener = new ChirpSDKListener() {
 
@@ -104,12 +109,19 @@ public final class DingCore {
         mChirpSDK.stop();
     }
 
-    public Observable<JSONObject> startListening() {
+    public Observable<DingMessage> startListening() {
         return mReadSubject;
     }
 
-    public void send(final JSONObject json) {
-        final Chirp chirpJson = new Chirp(json);
+    public void send(@NonNull final DingMessage dingMessage) {
+        final String jsonMessage = mGson.toJson(dingMessage);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("value", jsonMessage);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final Chirp chirpJson = new Chirp(jsonObject);
         mChirpSDK.create(chirpJson, new CallbackCreate() {
 
             @Override
@@ -124,7 +136,7 @@ public final class DingCore {
         });
     }
 
-    private void readChirp(Chirp chirp) {
+    private void readChirp(final Chirp chirp) {
         /*------------------------------------------------------------------------------
          * ChirpSDK.read queries the Chirp API for extended data associated with a
          * given chirp. It requires an internet connection.
@@ -137,9 +149,14 @@ public final class DingCore {
              *----------------------------------------------------------------------------*/
             @Override
             public void onReadResponse(final Chirp chirp) {
-                final JSONObject jsonData = chirp.getJsonData();
-                Log.d(TAG, "onReadResponse: " + jsonData);
-                mReadSubject.onNext(jsonData);
+                try {
+                    final String jsonMessage = (String) chirp.getJsonData().get("value");
+                    Log.d(TAG, "onReadResponse: " + jsonMessage);
+                    final DingMessage dingMessage = mGson.fromJson(jsonMessage, DingMessage.class);
+                    mReadSubject.onNext(dingMessage);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             /*------------------------------------------------------------------------------
