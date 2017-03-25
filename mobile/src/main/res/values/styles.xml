@@ -8,4 +8,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="KeyPadButton" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:shadowColor">#3d000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="KeyPadDivider">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#fff</item>
+    </style>
+
 </resources>

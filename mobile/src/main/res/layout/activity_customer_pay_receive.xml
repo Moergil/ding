@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:id="@+id/payment_await_pane"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:id="@+id/audio_visualization"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:background="#0f0"
+                android:layout_alignParentTop="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Listening..."
+                android:textSize="32sp"
+                android:textColor="@color/colorText"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/payment_pane"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/payment_info_pane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/merchant_logo"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_merchan"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/items_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/merchant_logo"
+                android:textSize="28sp"
+                android:textColor="@color/opaqueColorText"
+                android:gravity="center"
+                android:text="1x Mango ice cream with spingels"/>
+
+            <TextView
+                android:id="@+id/payment_sum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/merchant_logo"
+                android:textSize="50sp"
+                android:textColor="@color/colorText"
+                android:text="100 czk"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pay_actions_pane"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/pay_action_cancel"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/red_circle"
+                android:text="✗"
+                android:textColor="#fff"
+                android:textSize="40sp"
+                android:layout_margin="20dp"/>
+
+            <Button
+                android:id="@+id/pay_action_confirm"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/green_circle"
+                android:text="✓"
+                android:textColor="#fff"
+                android:textSize="40sp"
+                android:layout_margin="20dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

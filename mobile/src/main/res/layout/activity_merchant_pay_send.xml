@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <LinearLayout
+        android:id="@+id/payment_request_preparation_pane"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/sum_pane"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="40dp">
+
+                <TextView
+                    android:id="@+id/amount_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="100sp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/colorText"
+                    android:shadowDx="0"
+                    android:shadowDy="5"
+                    android:shadowRadius="5"/>
+
+                <TextView
+                    android:id="@+id/currency_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="32sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/colorText"
+                    android:text="czk"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:text="Send"
+            android:textColor="@color/colorText"
+            android:textSize="24sp"
+            android:paddingLeft="71dp"
+            android:paddingRight="71dp"
+            android:background="@drawable/rounded_red_rectangle"/>
+
+        <TableLayout
+            android:id="@+id/keypad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:stretchColumns="*">
+
+            <TableRow>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_1"
+                    android:text="1"/>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_2"
+                    android:text="2"/>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_3"
+                    android:text="3"/>
+
+            </TableRow>
+
+            <TableRow>
+                <View
+                    style="@style/KeyPadDivider" />
+                <View
+                    style="@style/KeyPadDivider" />
+                <View
+                    style="@style/KeyPadDivider" />
+            </TableRow>
+
+            <TableRow>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_4"
+                    android:text="4"/>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_5"
+                    android:text="5"/>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_6"
+                    android:text="6"/>
+
+            </TableRow>
+
+            <TableRow>
+                <View
+                    style="@style/KeyPadDivider" />
+                <View
+                    style="@style/KeyPadDivider" />
+                <View
+                    style="@style/KeyPadDivider" />
+            </TableRow>
+
+            <TableRow>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_7"
+                    android:text="7"/>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_8"
+                    android:text="8"/>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_9"
+                    android:text="9"/>
+
+            </TableRow>
+
+            <TableRow>
+                <View
+                    style="@style/KeyPadDivider" />
+                <View
+                    style="@style/KeyPadDivider" />
+                <View
+                    style="@style/KeyPadDivider" />
+            </TableRow>
+
+            <TableRow>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_dot"
+                    android:text="."/>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_0"
+                    android:text="0"/>
+
+                <Button
+                    style="@style/KeyPadButton"
+                    android:id="@+id/button_keypad_delete"
+                    android:text="X"/>
+
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/payment_send_status_pane"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/send_progress"
+                android:src="@drawable/ic_wincheck"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:indeterminate="true"/>
+
+            <TextView
+                android:id="@+id/payment_send_status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32sp"
+                android:textColor="@color/colorText"
+                android:fontFamily="sans-serif-medium"
+                android:text="Waiting..."
+                android:layout_marginTop="50dp"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
