@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,17 +21,20 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.internal.disposables.ListCompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int RESULT_REQUEST_RECORD_AUDIO = 0;
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Nullable
     private DingCore mDingCore;
     @Nullable
-    private Disposable mDisposable;
+    private ListCompositeDisposable mDisposables;
 
     @BindView(R.id.txt_value)
     TextView mTextView;
@@ -45,8 +47,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mDingCore = new DingCore(getApplicationContext());
+        mDisposables = new ListCompositeDisposable();
 
         ButterKnife.bind(this);
+
+        final Disposable disposable = WebService.getInstance().waitForPayment("abc")
+                .subscribeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mTextView.setText("PAID");
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        mTextView.setText("ERROR");
+                    }
+                });
+        mDisposables.add(disposable);
     }
 
     private boolean doWeHaveRecordAudioPermission() {
@@ -71,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         if (doWeHaveRecordAudioPermission()) {
             mDingCore.resume();
 
-            mDisposable = mDingCore.startListening()
+            Disposable disposable = mDingCore.startListening()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<JSONObject>() {
@@ -85,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.e("E", throwable.toString());
                         }
                     });
+            mDisposables.add(disposable);
         }
     }
 
@@ -92,10 +112,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        if (mDisposable != null && !mDisposable.isDisposed()) {
-            mDisposable.dispose();
+        if (mDisposables != null && !mDisposables.isDisposed()) {
+            mDisposables.dispose();
         }
         mDingCore.pause();
+    }
+
+    @OnClick(R.id.btn_pay)
+    void onPayClick() {
+        WebService.getInstance().pay("abc");
     }
 
     @OnClick(R.id.btn_start)
