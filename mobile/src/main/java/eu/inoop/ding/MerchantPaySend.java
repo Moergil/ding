@@ -105,6 +105,11 @@ public class MerchantPaySend extends BaseActivity {
         mSendStatusText.setText("Paid!");
     }
 
+    @OnClick(R.id.payment_send_status_text)
+    void onPaidClicked() {
+        this.recreate();
+    }
+
     @OnClick(R.id.send_button)
     public void onSendClick(View view) {
         mPaymentRequestPreparationPane.setVisibility(View.GONE);
