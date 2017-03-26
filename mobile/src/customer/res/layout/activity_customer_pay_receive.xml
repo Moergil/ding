@@ -177,7 +177,7 @@
                 android:textSize="32sp"
                 android:textColor="@color/colorText"
                 android:fontFamily="sans-serif-medium"
-                android:text="Payed!"
+                android:text="Paid!"
                 android:layout_marginTop="50dp"/>
 
         </LinearLayout>
