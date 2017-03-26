@@ -9,7 +9,7 @@
         android:id="@+id/payment_await_pane"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -148,6 +148,39 @@
 
         </LinearLayout>
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/payment_send_finished_pane"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/send_progress"
+                android:src="@drawable/ic_wincheck"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:indeterminate="true"/>
+
+            <TextView
+                android:id="@+id/payment_send_status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32sp"
+                android:textColor="@color/colorText"
+                android:fontFamily="sans-serif-medium"
+                android:text="Payed!"
+                android:layout_marginTop="50dp"/>
+
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

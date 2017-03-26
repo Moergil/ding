@@ -39,6 +39,9 @@ public final class CustomerPayReceiveActivity extends BaseActivity {
     @BindView((R.id.payment_pane))
     RelativeLayout mPaymentPane;
 
+    @BindView(R.id.payment_send_finished_pane)
+    RelativeLayout mPaymentSendFinishedPane;
+
     @BindView(R.id.merchant_logo)
     ImageView mMerchantLogo;
 
@@ -228,12 +231,20 @@ public final class CustomerPayReceiveActivity extends BaseActivity {
     void onConfirmPayment() {
         if (mPaymentInfo != null) {
             WebService.pay(mPaymentInfo.getMerchantId());
-            this.onBackPressed();
+            mPaymentPane.setVisibility(View.GONE);
+            mPaymentSendFinishedPane.setVisibility(View.VISIBLE);
+
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            }, 2000);
         }
     }
 
     @OnClick(R.id.pay_action_cancel)
     void onCancelPayment() {
-        this.onBackPressed();
+        finish();
     }
 }
