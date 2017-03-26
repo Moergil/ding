@@ -1,4 +1,4 @@
-package eu.inoop.ding.logic;
+package eu.inloop.ding.logic;
 
 
 import android.content.Context;
@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import eu.inoop.ding.R;
+import eu.inloop.ding.R;
 import io.chirp.sdk.AudioBufferListener;
 import io.chirp.sdk.CallbackCreate;
 import io.chirp.sdk.CallbackRead;

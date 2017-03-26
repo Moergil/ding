@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/sum_pane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/amount_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:shadowDx="0"
+                android:shadowDy="5"
+                android:shadowRadius="5"
+                android:textColor="@color/colorText"
+                android:textSize="100sp"/>
+
+            <TextView
+                android:id="@+id/currency_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="czk"
+                android:textColor="@color/colorText"
+                android:textSize="32sp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/send_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:layout_weight="0"
+        android:background="@drawable/rounded_red_rectangle"
+        android:paddingLeft="71dp"
+        android:paddingRight="71dp"
+        android:text="Send"
+        android:textColor="@color/colorText"
+        android:textSize="24sp"/>
+
+    <TableLayout
+        android:id="@+id/keypad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:stretchColumns="*">
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/button_keypad_1"
+                style="@style/KeyPadButton"
+                android:text="1"/>
+
+            <Button
+                android:id="@+id/button_keypad_2"
+                style="@style/KeyPadButton"
+                android:text="2"/>
+
+            <Button
+                android:id="@+id/button_keypad_3"
+                style="@style/KeyPadButton"
+                android:text="3"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <View
+                style="@style/KeyPadDivider"/>
+
+            <View
+                style="@style/KeyPadDivider"/>
+
+            <View
+                style="@style/KeyPadDivider"/>
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/button_keypad_4"
+                style="@style/KeyPadButton"
+                android:text="4"/>
+
+            <Button
+                android:id="@+id/button_keypad_5"
+                style="@style/KeyPadButton"
+                android:text="5"/>
+
+            <Button
+                android:id="@+id/button_keypad_6"
+                style="@style/KeyPadButton"
+                android:text="6"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <View
+                style="@style/KeyPadDivider"/>
+
+            <View
+                style="@style/KeyPadDivider"/>
+
+            <View
+                style="@style/KeyPadDivider"/>
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/button_keypad_7"
+                style="@style/KeyPadButton"
+                android:text="7"/>
+
+            <Button
+                android:id="@+id/button_keypad_8"
+                style="@style/KeyPadButton"
+                android:text="8"/>
+
+            <Button
+                android:id="@+id/button_keypad_9"
+                style="@style/KeyPadButton"
+                android:text="9"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <View
+                style="@style/KeyPadDivider"/>
+
+            <View
+                style="@style/KeyPadDivider"/>
+
+            <View
+                style="@style/KeyPadDivider"/>
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/button_keypad_dot"
+                style="@style/KeyPadButton"
+                android:text="."/>
+
+            <Button
+                android:id="@+id/button_keypad_0"
+                style="@style/KeyPadButton"
+                android:text="0"/>
+
+            <Button
+                android:id="@+id/button_keypad_delete"
+                style="@style/KeyPadButton"
+                android:text="X"/>
+
+        </TableRow>
+
+    </TableLayout>
+</LinearLayout>

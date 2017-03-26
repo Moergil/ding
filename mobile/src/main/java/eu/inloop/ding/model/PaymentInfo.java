@@ -1,4 +1,4 @@
-package eu.inoop.ding.model;
+package eu.inloop.ding.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

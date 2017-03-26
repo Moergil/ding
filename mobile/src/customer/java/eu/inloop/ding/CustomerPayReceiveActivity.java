@@ -1,9 +1,7 @@
-package eu.inoop.ding;
+package eu.inloop.ding;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -16,22 +14,24 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
 
+import blade.Blade;
+import blade.State;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import eu.inoop.ding.logic.DingCore;
-import eu.inoop.ding.logic.DingMessage;
-import eu.inoop.ding.logic.WebService;
-import eu.inoop.ding.model.PaymentInfo;
+import eu.inloop.ding.logic.DingCore;
+import eu.inloop.ding.logic.DingMessage;
+import eu.inloop.ding.logic.WebService;
+import eu.inloop.ding.model.PaymentInfo;
 import io.chirp.sdk.AudioBufferListener;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public final class CustomerPayReceiveActivity extends BaseActivity {
 
-    public static final String STATE_KEY_PAYMENT_INFO = "StateKeyPaymentInfo";
+@Blade
+public final class CustomerPayReceiveActivity extends BaseActivity {
 
     @BindView(R.id.payment_await_pane)
     RelativeLayout mPaymentAwaitPane;
@@ -48,8 +48,9 @@ public final class CustomerPayReceiveActivity extends BaseActivity {
     @BindView((R.id.payment_sum))
     TextView mPaymentSum;
 
+    @State
     @Nullable
-    private PaymentInfo mPaymentInfo;
+    PaymentInfo mPaymentInfo;
 
     private ArrayList<View> mSoundLevelBlocks = new ArrayList<>();
     private ArrayList<Double> mSoundLevels = new ArrayList<>();
@@ -68,14 +69,9 @@ public final class CustomerPayReceiveActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_customer_pay_receive);
 
         mDingCore = DingCore.getInstance(this);
-
-        if (savedInstanceState != null) {
-            mPaymentInfo = (PaymentInfo) savedInstanceState.getSerializable(STATE_KEY_PAYMENT_INFO);
-        }
-
-        setContentView(R.layout.activity_customer_pay_receive);
 
         ButterKnife.bind(this);
 
@@ -86,10 +82,10 @@ public final class CustomerPayReceiveActivity extends BaseActivity {
         }
 
         float dp = 10;
-        mReferenceSize = (int)(dp * getResources().getDisplayMetrics().density);
+        mReferenceSize = (int) (dp * getResources().getDisplayMetrics().density);
 
         float dp2 = 5;
-        mSoundMargin = (int)(dp2 * getResources().getDisplayMetrics().density);
+        mSoundMargin = (int) (dp2 * getResources().getDisplayMetrics().density);
 
         mSoundLevelBlocks.add(ButterKnife.findById(this, R.id.audio_block_1));
         mSoundLevelBlocks.add(ButterKnife.findById(this, R.id.audio_block_2));
@@ -126,13 +122,10 @@ public final class CustomerPayReceiveActivity extends BaseActivity {
         }
     }
 
-    private double calcAmplitude(short[] buffer)
-    {
+    private double calcAmplitude(short[] buffer) {
         int max = 0;
-        for (short s : buffer)
-        {
-            if (Math.abs(s) > max)
-            {
+        for (short s : buffer) {
+            if (Math.abs(s) > max) {
                 max = Math.abs(s);
             }
         }
@@ -161,7 +154,7 @@ public final class CustomerPayReceiveActivity extends BaseActivity {
             View block = mSoundLevelBlocks.get(i);
 
             double amp = mSoundLevels.get(i);
-            int chunks = (int)(amp / mReferenceAmp);
+            int chunks = (int) (amp / mReferenceAmp);
             int newHeight = chunks * mReferenceSize;
             int width = block.getWidth();
 
@@ -217,14 +210,6 @@ public final class CustomerPayReceiveActivity extends BaseActivity {
         mPaymentSum.setText(paymentSumString);
 
         mDingCore.removeAudioListener(mAudioBufferListener);
-    }
-
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-
-        outState.putSerializable(STATE_KEY_PAYMENT_INFO, mPaymentInfo);
     }
 
     @OnClick(R.id.pay_action_confirm)
