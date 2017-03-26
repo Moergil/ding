@@ -1,14 +1,17 @@
-package eu.inoop.ding;
+package eu.inloop.ding;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import blade.Blade;
+import blade.I;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+
+@Blade
+public final class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.listen_button)
     public void onListenInitiated(View view) {
-        Intent intent = new Intent(this, CustomerPayReceiveActivity.class);
-        startActivity(intent);
+        I.startCustomerPayReceiveActivity(this);
     }
 }

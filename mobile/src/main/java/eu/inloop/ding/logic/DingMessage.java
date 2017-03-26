@@ -1,4 +1,4 @@
-package eu.inoop.ding.logic;
+package eu.inloop.ding.logic;
 
 
 import android.support.annotation.NonNull;

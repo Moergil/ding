@@ -1,4 +1,4 @@
-package eu.inoop.ding;
+package eu.inloop.ding;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -8,11 +8,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
-import eu.inoop.ding.logic.DingCore;
+import eu.inloop.ding.logic.DingCore;
 import io.reactivex.internal.disposables.ListCompositeDisposable;
 
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private static final int RESULT_REQUEST_RECORD_AUDIO = 0;
 

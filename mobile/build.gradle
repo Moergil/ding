@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'blade'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "eu.inoop.ding"
+        applicationId "eu.inloop.ding"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
