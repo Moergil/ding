@@ -16,10 +16,13 @@ android {
         resValue "string", "chirp_app_key", properties.getProperty('CHIRP_APP_KEY')
         resValue "string", "chirp_app_secret", properties.getProperty('CHIRP_APP_SECRET')
     }
-    buildTypes {
-        debug {
-            minifyEnabled false
+    productFlavors {
+        customer {
         }
+        merchant {
+        }
+    }
+    buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
