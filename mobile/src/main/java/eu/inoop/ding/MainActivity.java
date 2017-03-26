@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.listen_button)
     public void onListenInitiated(View view) {
+//        Intent intent = new Intent(this, MerchantPaySend.class);
         Intent intent = new Intent(this, CustomerPayReceiveActivity.class);
         startActivity(intent);
     }
